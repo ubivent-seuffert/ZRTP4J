@@ -366,10 +366,13 @@ public class SRTPCryptoContext
      * @param pkt the RTP packet that is going to be sent out
      */
     public void transformPacket(RawPacket pkt) {
+        int seqNo = PacketManipulator.GetRTPSequenceNumber(pkt);
+        long index = ((long) this.roc << 16) | seqNo;
+        
         /* Encrypt the packet using Counter Mode encryption */
         if (policy.getEncType() == SRTPPolicy.AESCM_ENCRYPTION || 
                 policy.getEncType() == SRTPPolicy.TWOFISH_ENCRYPTION) {
-            processPacketAESCM(pkt);
+            processPacketAESCM(pkt, index);
         }
 
         /* Encrypt the packet using F8 Mode encryption */
@@ -385,7 +388,6 @@ public class SRTPCryptoContext
         }
 
         /* Update the ROC if necessary */
-        int seqNo = PacketManipulator.GetRTPSequenceNumber(pkt);
         if (seqNo == 0xFFFF) {
             roc++;
         }
@@ -448,7 +450,7 @@ public class SRTPCryptoContext
         /* Decrypt the packet using Counter Mode encryption*/
         if (policy.getEncType() == SRTPPolicy.AESCM_ENCRYPTION ||
                 policy.getEncType() == SRTPPolicy.TWOFISH_ENCRYPTION) {
-            processPacketAESCM(pkt);
+            processPacketAESCM(pkt, guessedIndex);
         }
 
         /* Decrypt the packet using F8 Mode encryption*/
@@ -466,10 +468,8 @@ public class SRTPCryptoContext
      * Perform Counter Mode AES encryption / decryption 
      * @param pkt the RTP packet to be encrypted / decrypted
      */
-    public void processPacketAESCM(RawPacket pkt) {
+    public void processPacketAESCM(RawPacket pkt, long index) {
         long ssrc = PacketManipulator.GetRTPSSRC(pkt);
-        int seqNum = PacketManipulator.GetRTPSequenceNumber(pkt);
-        long index = ((long) this.roc << 16) | seqNum;
 
         /* Compute the CM IV (refer to chapter 4.1.1 in RFC 3711):
         *
