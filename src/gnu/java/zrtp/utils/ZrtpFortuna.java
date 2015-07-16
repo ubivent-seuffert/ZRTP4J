@@ -3,8 +3,6 @@ package gnu.java.zrtp.utils;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.jitsi.bccontrib.prng.FortunaGenerator;
 
-import java.security.SecureRandom;
-
 /**
  * A Fortuna PRNG utility class to maintain a Fortuna generator singleton.
  * 
@@ -47,7 +45,7 @@ public class ZrtpFortuna implements RandomGenerator {
 
 	private void initialize() {
 		byte[] someData = new byte[256];
-		new SecureRandom().nextBytes(someData);
+		new java.security.SecureRandom().nextBytes(someData);
 		fortuna = new FortunaGenerator(someData);
 	}
 
