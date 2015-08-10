@@ -728,7 +728,7 @@ public class SRTPCryptoContext
           replayWindow |= 1;
         }
         else {
-          replayWindow |= ( 1 << -delta );
+          replayWindow |= ( 1L << -delta );
         }
 
         if (delta > 0 && seqNo > seqNum) {
