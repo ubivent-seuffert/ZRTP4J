@@ -70,7 +70,7 @@
 	     <jar destfile="${dir.dist}/${zrtp4j-full-jar.name}" >
 	     	<fileset dir="${common-build.classes}" >
 	     		<include name="gnu/java/**" />
-	     		<include name="org/bouncycastle/**" />
+	     		<!-- <include name="org/bouncycastle/**" /> -->
 				<include name="djb/**" />
 	     		<exclude name="gnu/java/bigintcrypto/test/**" />
 	     	</fileset>
@@ -78,7 +78,7 @@
 	     <jar destfile="${dir.dist}/${zrtp4j-jar.name}" >
 	     	<fileset dir="${common-build.classes}" >
 	     		<include name="gnu/java/**" />
-	     		<include name="org/bouncycastle/**" />
+	     		<!-- <include name="org/bouncycastle/**" /> -->
 				<include name="djb/**" />
 	     		<exclude name="gnu/java/bigintcrypto/test/**" />
 	     		<exclude name="gnu/java/zrtp/jmf/**" />
