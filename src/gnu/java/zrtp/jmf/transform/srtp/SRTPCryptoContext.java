@@ -723,8 +723,8 @@ public class SRTPCryptoContext
         long delta = guessedIndex - (((long) this.roc) << 16 | this.seqNum);
 
         /* update the replay bit mask */
-        if( delta > 0 ){
-          replayWindow = replayWindow << delta;
+        if ( delta > 0 ) {
+          replayWindow = delta < 64 ? replayWindow << delta : 0;
           replayWindow |= 1;
         }
         else {
