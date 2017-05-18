@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gnu.java</groupId>
 	<artifactId>zrtp4j</artifactId>
-	<version>3.2.1-SNAPSHOT</version>
+	<version>4.1.0-SNAPSHOT</version>
 	<name>zrtp4j</name>
 	<packaging>jar</packaging>
 
