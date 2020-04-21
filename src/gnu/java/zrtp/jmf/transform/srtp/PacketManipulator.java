@@ -46,15 +46,15 @@ public class PacketManipulator
      */
     public static int GetRTPHeaderLength(RawPacket pkt)
     {
-        boolean hasExtension = ((pkt.readByte(0) & (0x01 << 2)) != 0);
-        if (hasExtension)
-        {
-            // TODO header extension is not supported yet
-            return -1;
-        }
+		boolean hasExtension = ((pkt.readByte(0) & (0x01 << 2)) != 0);
+		int csrcNum = (pkt.readByte(0) & 0xF);
+		int hdrLen = 12 + 4 * csrcNum;
+		if (hasExtension) {
+			int extensionCount = pkt.readUnsignedShortAsInt(hdrLen + 2);
+			hdrLen += 4 + (4 * extensionCount);
+		}
 
-        int csrcNum = (pkt.readByte(0) & 0xF);
-        return 12 + 4 * csrcNum; 
+		return hdrLen;
     }
 
     /**
