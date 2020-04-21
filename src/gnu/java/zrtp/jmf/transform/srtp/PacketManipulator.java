@@ -45,15 +45,14 @@ public class PacketManipulator
      * @return RTP header length from source RTP packet
      */
     public static int GetRTPHeaderLength(RawPacket pkt)
-    {
-		boolean hasExtension = ((pkt.readByte(0) & (0x01 << 2)) != 0);
-		int csrcNum = (pkt.readByte(0) & 0xF);
+    {    	
+		int csrcNum = (pkt.readByte(0) & 0x0F);
 		int hdrLen = 12 + 4 * csrcNum;
+		boolean hasExtension = ((pkt.readByte(0) & 0x10) != 0);
 		if (hasExtension) {
 			int extensionCount = pkt.readUnsignedShortAsInt(hdrLen + 2);
 			hdrLen += 4 + (4 * extensionCount);
 		}
-
 		return hdrLen;
     }
 
